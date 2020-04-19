@@ -10,7 +10,9 @@ import java.util.Collection;
 
 @NoArgsConstructor
 public class MyUserDetails implements UserDetails {
+
     private String email;
+
     private String password;
 
     public MyUserDetails(User user) {

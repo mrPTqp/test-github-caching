@@ -18,7 +18,6 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-
     AuthenticationFilter(final RequestMatcher requiresAuth) {
         super(requiresAuth);
     }
@@ -35,8 +34,8 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
                         : "";
         token = StringUtils.removeStart(token, "Bearer").trim();
         Authentication requestAuthentication = new UsernamePasswordAuthenticationToken(token, token);
-        return getAuthenticationManager().authenticate(requestAuthentication);
 
+        return getAuthenticationManager().authenticate(requestAuthentication);
     }
 
     @Override

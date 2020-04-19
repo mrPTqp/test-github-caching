@@ -12,10 +12,10 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class SearchResponse {
 
-    String totalCount;
+    private String totalCount;
 
-    boolean incompleteResults;
+    private boolean incompleteResults;
 
-    List<GitRepository> items;
+    private List<GitRepository> items;
 
 }

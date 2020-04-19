@@ -1,8 +1,8 @@
 package com.learning.spring.githubapiwrapper.security;
 
 import com.learning.spring.githubapiwrapper.entities.User;
-import com.learning.spring.githubapiwrapper.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.learning.spring.githubapiwrapper.repo.CustomerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
+@RequiredArgsConstructor
 public class AuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-    @Autowired
-    CustomerService customerService;
+    private final CustomerRepository customerRepository;
 
     @Override
     protected void additionalAuthenticationChecks(
@@ -37,11 +37,9 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
         User user = Optional
                 .ofNullable(token)
                 .map(String::valueOf)
-                .flatMap(customerService::findByToken)
+                .flatMap(customerRepository::findByToken)
                 .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with authentication token=" + token));
 
-        UserDetails userDetails = new MyUserDetails(user);
-
-        return userDetails;
+        return new MyUserDetails(user);
     }
 }

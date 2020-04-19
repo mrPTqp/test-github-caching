@@ -8,69 +8,75 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Map;
 
 @Data
+@Builder(toBuilder = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class GitRepository {
+
     @Id
-    long id;
+    private long id;
 
     @JsonIgnoreProperties
-    Date timestamp;
+    private LocalDateTime timestamp;
 
     @JsonIgnoreProperties
-    String queryName;
+    private String queryName;
 
-    String name;
+    @JsonIgnoreProperties
+    private String queryLanguage;
 
-    String ownerName;
+    private String name;
+
+    private String ownerName;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
-    String language;
+    private String language;
 
-    String fullName;
+    private String fullName;
 
-    String description;
+    private String description;
 
     @JsonProperty("private")
-    String isPrivate;
+    private String isPrivate;
 
     @JsonProperty("fork")
-    String isFork;
+    private String isFork;
 
-    String url;
+    private String url;
 
-    String htmlUrl;
+    private String htmlUrl;
 
-    String gitUrl;
+    private String gitUrl;
 
-    Long forksCount;
+    private Long forksCount;
 
-    Long stargazersCount;
+    private Long stargazersCount;
 
-    Long watchersCount;
+    private Long watchersCount;
 
     @JsonProperty("owner")
     private void unpackOwner(Map<String, Object> response) {
         ownerName = (String) response.get("login");
     }
-
 }

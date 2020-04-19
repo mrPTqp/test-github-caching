@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.learning.spring.githubapiwrapper.entities.GitRepository;
 import com.learning.spring.githubapiwrapper.service.CacheService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +12,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class MainController {
-    @Autowired
+public class GithubAccessController {
+
     private final CacheService cacheService;
 
     @GetMapping("api/topProjectsByLanguage")

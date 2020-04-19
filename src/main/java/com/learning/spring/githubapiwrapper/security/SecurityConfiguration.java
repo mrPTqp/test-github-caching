@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
@@ -27,16 +29,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             new AntPathRequestMatcher("/api/**")
     );
 
-    AuthenticationProvider provider;
+    private final AuthenticationProvider provider;
 
-    public SecurityConfiguration(final AuthenticationProvider authenticationProvider) {
+    public SecurityConfiguration(AuthenticationProvider authenticationProvider) {
         super();
         this.provider = authenticationProvider;
     }
 
     @Override
-    protected void configure(final AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(provider);
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(provider).jdbcAuthentication().passwordEncoder(getPasswordEncoder());
     }
 
     @Override
@@ -62,6 +64,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .logout().disable();
     }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 
     @Bean
     AuthenticationFilter authenticationFilter() throws Exception {

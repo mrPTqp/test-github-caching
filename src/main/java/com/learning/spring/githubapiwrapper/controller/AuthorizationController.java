@@ -1,24 +1,19 @@
 package com.learning.spring.githubapiwrapper.controller;
 
 import com.learning.spring.githubapiwrapper.service.CustomerService;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TokenController {
+@RequiredArgsConstructor
+public class AuthorizationController {
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     @PostMapping("/login")
     public String getToken(@RequestParam("email") final String email, @RequestParam("password") final String password) {
-        String token = customerService.login(email, password);
-        if (StringUtils.isEmpty(token)) {
-            return "User not found";
-        }
-        return token;
+        return customerService.login(email, password);
     }
 }
