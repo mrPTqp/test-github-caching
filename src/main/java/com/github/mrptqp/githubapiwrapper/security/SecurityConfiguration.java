@@ -37,8 +37,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(provider).jdbcAuthentication().passwordEncoder(getPasswordEncoder());
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(provider);
     }
 
     @Override
