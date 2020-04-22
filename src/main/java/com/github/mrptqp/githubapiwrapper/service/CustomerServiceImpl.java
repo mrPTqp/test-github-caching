@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Service("customerService")
 @RequiredArgsConstructor
@@ -58,7 +59,12 @@ public class CustomerServiceImpl implements CustomerService {
             throw new UnauthorizedException("Password is incorrect, try again.");
         }
 
-        return customerRepository.login(email, savedPassword).map(user -> {
+        return customerRepository.login(email, savedPassword).map(getActualToken())
+                .orElseThrow(() -> new UserNotFoundException("User not found. Please check your login and password"));
+    }
+
+    private Function<User, String> getActualToken() {
+        return user -> {
             String existingToken = user.getToken();
 
             if (existingToken != null) {
@@ -75,7 +81,7 @@ public class CustomerServiceImpl implements CustomerService {
             customerRepository.save(user);
 
             return token;
-        }).orElseThrow(() -> new UserNotFoundException("User not found. Please check your login and password"));
+        };
     }
 
 }
