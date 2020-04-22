@@ -26,7 +26,6 @@ import java.util.Map;
 @AllArgsConstructor
 @Entity
 public class GitRepository {
-
     @Id
     private long id;
 
