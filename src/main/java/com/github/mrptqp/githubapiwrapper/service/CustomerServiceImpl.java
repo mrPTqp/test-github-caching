@@ -33,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
         user.setPassword(encodedPassword);
         customerRepository.save(user);
 
-        String token = this.login(email, encodedPassword);
+        String token = this.login(email, password);
         user.setToken(token);
         LocalDateTime expireDate = LocalDateTime.now().plusHours(24);
         user.setExpireDate(expireDate);
