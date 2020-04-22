@@ -23,7 +23,7 @@ public class CacheServiceImpl implements CacheService {
 
     private final ObjectMapper objectMapper;
 
-    private final static int TIME_LIFE_MINUTES = 60;
+    private final static int REPO_RETENTION_MINUTES = 60;
 
     @Override
     @Transactional
@@ -38,7 +38,7 @@ public class CacheServiceImpl implements CacheService {
             return updateGitRepositories(queryLanguage);
         } else {
             for (GitRepository gitRepository : cachedRepositories) {
-                if (gitRepository.getTimestamp().plusMinutes(TIME_LIFE_MINUTES).isBefore(LocalDateTime.now())) {
+                if (gitRepository.getTimestamp().plusMinutes(REPO_RETENTION_MINUTES).isBefore(LocalDateTime.now())) {
                     cacheRepository.deleteAllByQueryNameAndQueryLanguage(
                             "topProjectsByLanguage=",
                             queryLanguage
