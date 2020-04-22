@@ -29,7 +29,7 @@ public class CacheServiceImpl implements CacheService {
     @Transactional
     public List<GitRepository> getTopProjectsByLanguage(String queryLanguage) throws JsonProcessingException {
         List<GitRepository> cachedRepositories = cacheRepository.findByQueryNameAndQueryLanguage(
-                "topProjectsByLanguage=",
+                "topProjectsByLanguage",
                 queryLanguage
         );
 
@@ -39,14 +39,14 @@ public class CacheServiceImpl implements CacheService {
             for (GitRepository gitRepository : cachedRepositories) {
                 if (gitRepository.getTimestamp().plusMinutes(REPO_RETENTION_MINUTES).isBefore(LocalDateTime.now())) {
                     cacheRepository.deleteAllByQueryNameAndQueryLanguage(
-                            "topProjectsByLanguage=",
+                            "topProjectsByLanguage",
                             queryLanguage
                     );
 
                     return updateGitRepositories(queryLanguage);
                 }
             }
-            return cacheRepository.findByQueryNameAndQueryLanguage("topProjectsByLanguage=", queryLanguage);
+            return cacheRepository.findByQueryNameAndQueryLanguage("topProjectsByLanguage", queryLanguage);
         }
     }
 
@@ -62,12 +62,12 @@ public class CacheServiceImpl implements CacheService {
                 .stream()
                 .map(gitRepository -> gitRepository
                         .toBuilder()
-                        .queryName("topProjectsByLanguage=")
+                        .queryName("topProjectsByLanguage")
                         .queryLanguage(queryLanguage)
                         .timestamp(timestamp).build())
                 .forEach(cacheRepository::save);
 
-        return cacheRepository.findByQueryNameAndQueryLanguage("topProjectsByLanguage=", queryLanguage);
+        return cacheRepository.findByQueryNameAndQueryLanguage("topProjectsByLanguage", queryLanguage);
     }
 
 }
