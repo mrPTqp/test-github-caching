@@ -18,13 +18,11 @@ public class GithubInterrogator {
 
     private static final String SORT_AND_ORDER = "&sort=stars&order=desc";
 
-    private static final String GITHUB_V3_MIME_TYPE = "application/vnd.github.v3+json";
-
     private final HttpHeaders headers;
 
     public GithubInterrogator() {
         headers = new HttpHeaders();
-        headers.set("Content-Type", GITHUB_V3_MIME_TYPE);
+        headers.set("Content-Type", "application/vnd.github.v3+json");
     }
 
     public String getTopProjectsByLanguage(String language) {

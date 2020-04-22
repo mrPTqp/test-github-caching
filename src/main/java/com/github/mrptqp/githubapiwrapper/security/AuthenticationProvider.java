@@ -31,7 +31,6 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
             String email,
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
     ) throws AuthenticationException {
-
         Object token = usernamePasswordAuthenticationToken.getCredentials();
 
         User user = Optional

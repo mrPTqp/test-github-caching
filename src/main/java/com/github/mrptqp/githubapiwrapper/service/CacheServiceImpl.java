@@ -28,7 +28,6 @@ public class CacheServiceImpl implements CacheService {
     @Override
     @Transactional
     public List<GitRepository> getTopProjectsByLanguage(String queryLanguage) throws JsonProcessingException {
-
         List<GitRepository> cachedRepositories = cacheRepository.findByQueryNameAndQueryLanguage(
                 "topProjectsByLanguage=",
                 queryLanguage

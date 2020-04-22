@@ -14,7 +14,6 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(@RequestParam("email") final String email, @RequestParam("password") final String password) {
-
         customerService.saveUser(email, password);
 
         return "User was created successfully.";
