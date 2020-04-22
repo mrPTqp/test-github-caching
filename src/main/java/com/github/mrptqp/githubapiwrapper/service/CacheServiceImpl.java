@@ -67,7 +67,7 @@ public class CacheServiceImpl implements CacheService {
                         .timestamp(timestamp).build())
                 .forEach(cacheRepository::save);
 
-        return cacheRepository.findByQueryNameAndQueryLanguage("topProjectsByLanguage", queryLanguage);
+        return gitRepositories;
     }
 
 }
