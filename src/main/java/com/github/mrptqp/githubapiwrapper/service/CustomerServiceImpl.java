@@ -50,8 +50,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String login(String email, String password) {
-        User customer = customerRepository.findByEmail(email).get();
-        String savedPassword = customer.getPassword();
+        String savedPassword = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found. Please check your login and password"))
+                .getPassword();
 
         if (!encoder.matches(password, savedPassword)) {
             throw new UnauthorizedException("Password is incorrect, try again.");
@@ -74,8 +75,7 @@ public class CustomerServiceImpl implements CustomerService {
             customerRepository.save(user);
 
             return token;
-        })
-                .orElseThrow(() -> new UserNotFoundException("User not found. Please check your login and password"));
+        }).orElseThrow(() -> new UserNotFoundException("User not found. Please check your login and password"));
     }
 
 }
