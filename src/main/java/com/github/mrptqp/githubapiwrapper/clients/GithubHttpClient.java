@@ -1,4 +1,4 @@
-package com.github.mrptqp.githubapiwrapper.interrogators;
+package com.github.mrptqp.githubapiwrapper.clients;
 
 import com.github.mrptqp.githubapiwrapper.exceptions.BadRequestException;
 import org.springframework.http.HttpEntity;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class GithubInterrogator {
+public class GithubHttpClient {
 
     private static final String GITHUB_API_URL = "https://api.github.com";
 
@@ -20,7 +20,7 @@ public class GithubInterrogator {
 
     private final HttpHeaders headers;
 
-    public GithubInterrogator() {
+    public GithubHttpClient() {
         headers = new HttpHeaders();
         headers.set("Content-Type", "application/vnd.github.v3+json");
     }

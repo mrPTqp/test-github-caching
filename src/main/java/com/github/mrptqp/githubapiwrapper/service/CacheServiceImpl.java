@@ -2,9 +2,9 @@ package com.github.mrptqp.githubapiwrapper.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.mrptqp.githubapiwrapper.clients.GithubHttpClient;
 import com.github.mrptqp.githubapiwrapper.entities.GitRepository;
 import com.github.mrptqp.githubapiwrapper.entities.SearchResponse;
-import com.github.mrptqp.githubapiwrapper.interrogators.GithubInterrogator;
 import com.github.mrptqp.githubapiwrapper.repo.CacheRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CacheServiceImpl implements CacheService {
 
-    private final GithubInterrogator githubInterrogator;
+    private final GithubHttpClient githubHttpClient;
 
     private final CacheRepository cacheRepository;
 
@@ -51,7 +51,7 @@ public class CacheServiceImpl implements CacheService {
     }
 
     private List<GitRepository> updateGitRepositories(String queryLanguage) throws JsonProcessingException {
-        String topProjectsByLanguage = githubInterrogator.getTopProjectsByLanguage(queryLanguage);
+        String topProjectsByLanguage = githubHttpClient.getTopProjectsByLanguage(queryLanguage);
         LocalDateTime timestamp = LocalDateTime.now();
 
         List<GitRepository> gitRepositories = objectMapper
